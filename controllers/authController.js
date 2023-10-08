@@ -5,15 +5,20 @@ import { createError } from "../utils/error.js";
 
 export const register = async (req, res, next) => {
     try {
-        const salt = bcrypt.genSaltSync(10);
-        const hash = bcrypt.hashSync(req.body.password, salt);
+        if(req?.body?.isAdmin){
+            const salt = bcrypt.genSaltSync(10);
+            const hash = bcrypt.hashSync(req.body.password, salt);
+    
+            const newUser = new User({
+                ...req.body,
+                password: hash,
+            });
+            await newUser.save();
+        } else {
+            const newUser = new User({...req.body});
+            await newUser.save();
+        }
 
-        const newUser = new User({
-            ...req.body,
-            password: hash,
-        });
-
-        await newUser.save();
         res.status(200).send("User has been created.");
     } catch (err) {
         next(err);
@@ -46,4 +51,3 @@ export const login = async (req, res, next) => {
         next(err);
     }
 };
-

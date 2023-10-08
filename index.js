@@ -8,15 +8,10 @@ import usersRoute from "./routes/users.js";
 import hotelsRoute from "./routes/hotel.js";
 import roomsRoute from './routes/room.js'
 
-
-
-
-const port = process.env.PORT || 5000 ;
-
-
 const app = express();
 dotenv.config();
 
+const port = process.env.PORT || 5000 ;
 
 const connect = async () => {
     try {
@@ -31,23 +26,17 @@ mongoose.connection.on("disconnected", () => {
     console.log("mongoDB disconnected!");
 });
 
-
-
 //middlewares
 app.use(cors());
 app.use(cookieParser());
 app.use(express.urlencoded({extended: true}))
 app.use(express.json());
 
-
-
 // Routes 
 app.use("/api/auth", authRoute);
 app.use("/api/users", usersRoute);
 app.use("/api/hotels", hotelsRoute);
 app.use("/api/rooms", roomsRoute);
-
-
 
 // Error Handler 
 app.use((err, req, res, next) => {
@@ -61,13 +50,12 @@ app.use((err, req, res, next) => {
     });
 });
 
-
 app.get("/", (req, res) => {
     res.send("Booking App Server is Running");
 });
 
-
 app.listen(port, () => {
   connect();
   console.log("Connected to backend.");
+  console.log(`Server is listening on port ${port}`);
 });
