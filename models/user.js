@@ -3,30 +3,31 @@ import mongoose from "mongoose";
 const UserSchema = new mongoose.Schema(
   {
     name: {
-      type: String,
-      required: true,
-    },
-    username: {
-      type: String,
+      type: String
     },
     email: {
-      type: String,
-      required: true,
-      unique: true,
+      type: String
     },
     password: {
       type: String,
-    },
-    phone: {
-      type: String,
-    },
-    address: {
-      type: String,
+      default: null
     },
     isAdmin: {
       type: Boolean,
-      default: false,
+      default: false
     },
+    phone: {
+      type: String,
+      default: null
+    },
+    address: {
+      type: String,
+      default: null
+    },
+    hotelname: {
+      type : String,
+      default: null
+    }
   },
   { timestamps: true }
 );

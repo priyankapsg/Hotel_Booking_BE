@@ -15,7 +15,7 @@ export const register = async (req, res, next) => {
             });
             await newUser.save();
         } else {
-            const newUser = new User({...req.body});
+            const newUser = new User(req.body);
             await newUser.save();
         }
 
