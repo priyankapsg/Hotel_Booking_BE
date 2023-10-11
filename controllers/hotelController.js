@@ -43,13 +43,23 @@ export const getHotel = async (req, res, next) => {
 
 export const getHotels = async (req, res, next) => {
 
-    const { min, max, ...others } = req.query;
-
+    const { city, type } = req.query;
+    let hotels;
     try {
-        const hotels = await Hotel.find({
-            ...others,
-            cheapestPrice: { $gt: min || 1, $lte: max || 9999 },
-        }).limit(parseInt(req.query.limit));
+
+        if(city === undefined && type === undefined) {
+        hotels = await Hotel.find();
+        }
+         else if(type === 'hotel'){
+        hotels = await Hotel.find({type: type});
+        }
+         else if(type === 'party_hall'){
+        hotels = await Hotel.find({type: type});
+        } 
+         else if(city){
+        hotels = await Hotel.find({city: city});
+        } 
+        
         res.status(200).json(hotels);
     } catch (err) {
         next(err);
